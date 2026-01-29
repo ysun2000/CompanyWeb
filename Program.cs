@@ -1,10 +1,20 @@
 using CompanyWeb.Models.CompanyDB;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var companyConnStr = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<CompanyContext>();
+
+// CompanyContext is registered here for Dependency Injection
+builder.Services.AddDbContext<CompanyContext>(options =>
+    options.UseSqlite(companyConnStr));
+
+
 
 var app = builder.Build();
 
