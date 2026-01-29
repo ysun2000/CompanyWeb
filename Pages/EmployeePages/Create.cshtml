@@ -24,14 +24,11 @@
                 <span asp-validation-for="Employee.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Employee.DepartmentId" class="control-label"></label>
-                <input asp-for="Employee.DepartmentId" class="form-control" />
+                <label asp-for="Employee.DepartmentId" class="control-label">Department</label>
+                <select asp-for="Employee.DepartmentId" class="form-control" asp-items="Model.DepartmentList">
+                    <option value="">-- Select a Department --</option>
+                </select>
                 <span asp-validation-for="Employee.DepartmentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Employee.Department" class="control-label"></label>
-                <input asp-for="Employee.Department" class="form-control" />
-                <span asp-validation-for="Employee.Department" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -45,5 +42,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

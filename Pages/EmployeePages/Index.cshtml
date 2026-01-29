@@ -2,10 +2,10 @@
 @model CompanyWeb.Pages.EmployeePages.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Employees";
 }
 
-<h1>Index</h1>
+<h1>Employees</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -14,13 +14,13 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Employee[0].EmployeeId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Employee[0].FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Employee[0].LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Employee[0].DepartmentId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Employee[0].Department)
@@ -29,26 +29,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Employee) {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.DepartmentId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Department)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.EmployeeId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.EmployeeId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.EmployeeId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Employee)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.EmployeeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Department!.DepartmentName)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.EmployeeId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.EmployeeId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.EmployeeId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

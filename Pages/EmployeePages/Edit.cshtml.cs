@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CompanyWeb.Models.CompanyDB;
 
@@ -17,6 +18,8 @@ public class EditModel : PageModel
     [BindProperty]
     public Employee Employee { get; set; } = default!;
 
+    public SelectList? DepartmentList { get; set; }
+
     public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id is null)
@@ -30,6 +33,7 @@ public class EditModel : PageModel
             return NotFound();
         }
         Employee = employee;
+        await LoadDepartmentList();
         return Page();
     }
 
@@ -39,6 +43,7 @@ public class EditModel : PageModel
     {
         if (!ModelState.IsValid)
         {
+            await LoadDepartmentList();
             return Page();
         }
 
@@ -66,5 +71,11 @@ public class EditModel : PageModel
     private bool EmployeeExists(int id)
     {
         return _context.Employees.Any(e => e.EmployeeId == id);
+    }
+
+    private async Task LoadDepartmentList()
+    {
+        var departments = await _context.Departments.ToListAsync();
+        DepartmentList = new SelectList(departments, "DepartmentId", "DepartmentName");
     }
 }

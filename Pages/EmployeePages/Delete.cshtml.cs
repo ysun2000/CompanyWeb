@@ -24,7 +24,9 @@ public class DeleteModel : PageModel
             return NotFound();
         }
 
-        var employee = await _context.Employees.FirstOrDefaultAsync(m => m.EmployeeId == id);
+        var employee = await _context.Employees
+            .Include(e => e.Department)
+            .FirstOrDefaultAsync(m => m.EmployeeId == id);
         if (employee is null)
         {
             return NotFound();

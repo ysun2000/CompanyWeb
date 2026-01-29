@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CompanyWeb.Models.CompanyDB;
-using CompanyWeb.Models.CompanyDB;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CompanyWeb.Pages.EmployeePages;
 
@@ -15,19 +15,22 @@ public class CreateModel : PageModel
         _context = context;
     }
 
-    public IActionResult OnGet()
+    public async Task<IActionResult> OnGetAsync()
     {
+        await LoadDepartmentList();
         return Page();
     }
 
     [BindProperty]
     public Employee Employee { get; set; } = default!;
 
+    public SelectList? DepartmentList { get; set; }
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD.
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
         {
+            await LoadDepartmentList();
             return Page();
         }
 
@@ -35,5 +38,10 @@ public class CreateModel : PageModel
         await _context.SaveChangesAsync();
 
         return RedirectToPage("./Index");
+    }
+    private async Task LoadDepartmentList()
+    {
+        var departments = await _context.Departments.ToListAsync();
+        DepartmentList = new SelectList(departments, "DepartmentId", "DepartmentName");
     }
 }
