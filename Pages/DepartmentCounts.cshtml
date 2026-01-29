@@ -1,0 +1,25 @@
+@page
+@model CompanyWeb.Pages.DepartmentCountsModel
+@{
+    ViewData["Title"] = "Department Employee Counts";
+}
+
+<h1>Employee Counts by Department</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Department Name</th>
+            <th>Employee Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.DepartmentCounts)
+        {
+            <tr>
+                <td>@(item.Department?.DepartmentName ?? "No Department")</td>
+                <td>@item.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>

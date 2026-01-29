@@ -1,0 +1,36 @@
+@page
+@model CompanyWeb.Pages.DepartmentEmployeesModel
+@{
+    ViewData["Title"] = "Department Employees";
+}
+
+<h1>Employees by Department</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Department</th>
+            <th>Employee ID</th>
+            <th>Employee Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var department in Model.Departments)
+        {
+            var employeeList = department.Employees.ToList();
+            int employeeCount = employeeList.Count;
+            for (int i = 0; i < employeeCount; i++)
+            {
+                var employee = employeeList[i];
+                <tr>
+                    @if (i == 0)
+                    {
+                        <td rowspan="@employeeCount">@department.DepartmentName</td>
+                    }
+                    <td>@employee.EmployeeId</td>
+                    <td>@employee.FirstName @employee.LastName</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
